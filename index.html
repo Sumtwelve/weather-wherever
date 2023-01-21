@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> <!-- flexbox -->
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,18 +9,18 @@
         <link rel="stylesheet" type="text/css" href="./assets/style.css">
         <title>Forecast Finder</title>
     </head>
-    <body>
+    <body> <!-- flexbox -->
         <header>
             <h1 class="text-center p-4">Forecast Finder</h1>
         </header>
 
 
-        <main>
+        <main> <!-- flexbox -->
             <div class="search-and-history-container col-lg-4">
                 <section id="search-section" class="search-section p-3 p-lg-5 pt-1">
-                    <h2 class="py-2 mb-3">Enter a city below and view a current five-day weather forecast for that area.</h2>
-                    <input id="city-search-bar" class="col-10" placeholder="City...">
-                    <i class="fas fa-search col-1 p-3"></i>
+                    <h3 class="py-2 mb-3">Enter a city below and view a current five-day weather forecast for that area.</h3>
+                    <input id="city-search-bar" class="col-9 col-lg-8" placeholder="City...">
+                    <i id="search-button" class="fas fa-search col-1 col-lg-1 p-3"></i>
                 </section>
 
                 <section id="history-section h-100">
@@ -31,9 +31,13 @@
                 </section>
             </div>
                 
-            <div class="weather-container">
+            <div class="weather-container w-100">
                 <section id="weather-section">
+                    <!-- City name put here dynamically -->
+                    <h2 id="city-header" class="text-center p-4"></h2>
+                    <div>
 
+                    </div>
                 </section>
             </div>
         </main>

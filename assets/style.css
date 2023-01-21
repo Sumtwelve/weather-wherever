@@ -1,5 +1,6 @@
 :root {
     --bg: #CCFFFF;
+    --bg-dark: #20006b;
     --very-cold: #1a236fff;
     --cold: #119fd3ff;
     --warm: #fdffd2ff;
@@ -9,12 +10,14 @@
 
 html, body {
     height: 100%;
+    
     /* following two lines credit to Stack Overflow user Gima
     (https://stackoverflow.com/users/961517/gima)
     these lines as well as the `body > *` and `flex-grow: 1;` in the `main` selector
     force empty divs to extend to bottom of the page.
     NOTE that the first two lines under the `main` selector are my code,
-    and without that code the desired effect is not reached, so idk what's happening */
+    and without that code the desired effect is not reached, so idk what's happening.
+    History div also shrinks when the above line, `height: 100%;`, is deleted.*/
     display: flex;
     flex-direction: column;
 }
@@ -34,13 +37,13 @@ header {
 
 main {
     display: flex;
-    align-items: stretch;
 
     flex-grow: 1;
 }
 
 footer {
-    background-color: var(--bg);
+    color: white;
+    background-color: var(--bg-dark);
 }
 
 .search-and-history-container {
@@ -51,13 +54,25 @@ footer {
     border-bottom: 1px dashed black;
 }
 
+.fa-search {
+    font-size: 24px;
+    transition: all 0.2s ease;
+}
+
+.fa-search:hover {
+    cursor: pointer;
+    color: purple;
+}
+
 
 @media only screen and (max-width: 991px) {
-    .search-section {
-        border: none;
+
+    main {
+        flex-direction: column;
     }
 
     .search-and-history-container {
+        border-right: none;
         border-bottom: 2px solid black;
     }
 }
