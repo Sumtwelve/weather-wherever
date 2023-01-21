@@ -7,13 +7,36 @@
     --very-hot: #ce1717ff;
 }
 
+html, body {
+    height: 100%;
+    /* following two lines credit to Stack Overflow user Gima
+    (https://stackoverflow.com/users/961517/gima)
+    these lines as well as the `body > *` and `flex-grow: 1;` in the `main` selector
+    force empty divs to extend to bottom of the page.
+    NOTE that the first two lines under the `main` selector are my code,
+    and without that code the desired effect is not reached, so idk what's happening */
+    display: flex;
+    flex-direction: column;
+}
+
 body {
     background-color: #CCFFFF;
+}
+
+body > * {
+    flex-shrink: 0;
 }
 
 header {
     border-bottom: 4px solid gray;
     background-color: #AAFFFF;
+}
+
+main {
+    display: flex;
+    align-items: stretch;
+
+    flex-grow: 1;
 }
 
 footer {
@@ -25,7 +48,6 @@ footer {
 }
 
 .search-section {
-    border-right: 1px solid black;
     border-bottom: 1px dashed black;
 }
 
