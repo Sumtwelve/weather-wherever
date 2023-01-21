@@ -41,10 +41,7 @@ main {
     flex-grow: 1;
 }
 
-footer {
-    color: white;
-    background-color: var(--bg-dark);
-}
+
 
 .search-and-history-container {
     border-right: 1px solid black;
@@ -62,6 +59,20 @@ footer {
 .fa-search:hover {
     cursor: pointer;
     color: purple;
+}
+
+footer {
+    color: white;
+    background-color: var(--bg-dark);
+}
+
+footer a {
+    color: #ff7f7f;
+    transition: all 0.2s ease;
+}
+footer a:hover {
+    text-decoration: none;
+    color: #ffa9a9;
 }
 
 
