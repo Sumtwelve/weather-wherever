@@ -1,0 +1,41 @@
+:root {
+    --bg: #CCFFFF;
+    --very-cold: #1a236fff;
+    --cold: #119fd3ff;
+    --warm: #fdffd2ff;
+    --hot: #ff8527ff;
+    --very-hot: #ce1717ff;
+}
+
+body {
+    background-color: #CCFFFF;
+}
+
+header {
+    border-bottom: 4px solid gray;
+    background-color: #AAFFFF;
+}
+
+footer {
+    background-color: var(--bg);
+}
+
+.search-and-history-container {
+    border-right: 1px solid black;
+}
+
+.search-section {
+    border-right: 1px solid black;
+    border-bottom: 1px dashed black;
+}
+
+
+@media only screen and (max-width: 991px) {
+    .search-section {
+        border: none;
+    }
+
+    .search-and-history-container {
+        border-bottom: 2px solid black;
+    }
+}
