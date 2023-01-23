@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"> <!-- flexbox -->
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+        <link rel="stylesheet" type="text/css" href="./assets/css/style-search-results.css">
+        <title>Forecast Finder</title>
+    </head>
+    <body> <!-- flexbox -->
+        <header>
+            <h1 class="text-center p-4">Forecast Finder</h1>
+        </header>
+
+
+        <main> <!-- flexbox -->
+            <div class="search-and-history-container col-lg-4">
+                <section id="search-section" class="search-section p-3 p-lg-5 pt-1">
+                    <h3 class="py-2 mb-3">Enter a city below and view a current five-day weather forecast for that area.</h3>
+                    <input id="city-search-bar" class="col-9 col-lg-8" placeholder="City...">
+                    <i id="search-button" class="fas fa-search col-1 col-lg-1 p-3"></i>
+                </section>
+
+                <section id="history-section h-100">
+                    <h3 class="p-4">Search History</h3>
+                    <div id="history-items-container">
+                        
+                    </div>
+                </section>
+            </div>
+                
+            <div class="weather-container w-100">
+                <section id="weather-section">
+                    <!-- City name put here dynamically -->
+                    <h2 id="city-header" class="text-center p-4"></h2>
+                    <div>
+
+                    </div>
+                </section>
+            </div>
+        </main>
+
+
+        <footer class="fs-5 fixed-bottom text-center p-2 mt-1">
+            &copy; 2023 Noah Nielsen // Sumtwelve • <a href="https://github.com/Sumtwelve/w6-weather" target="_blank">GitHub</a>
+        </footer>
+
+        <!-- required JS libraries for Bootstrap -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+        <!-- actual source code for the web app -->
+        <script type="application/javascript" src="./assets/js/display-search.js"></script>
+    </body>
+</html>

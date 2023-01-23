@@ -1,0 +1,64 @@
+:root {
+    --bg: #CCFFFF;
+    --bg-dark: #20006b;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    position: relative;
+    background-image: url(../images/bg-large.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    transition: all 0.5s ease;
+}
+
+main {
+    position: absolute;
+    top: 43%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+i {
+    color: white;
+    background-color: purple;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+i:hover {
+    padding: 2% !important;
+}
+
+footer {
+    color: white;
+    background-color: var(--bg-dark);
+}
+
+footer a {
+    color: #ff7f7f;
+    transition: all 0.15s ease;
+}
+footer a:hover {
+    text-decoration: none;
+    color: #ffa9a9;
+}
+
+@media only screen and (max-width: 767px) {
+    h1 {
+        font-size: 5rem !important;
+    }
+
+    body {
+        background-image: url(../images/bg-small.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+}

@@ -6,34 +6,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
-        <link rel="stylesheet" type="text/css" href="./assets/style.css">
-        <title>Weather Search</title>
+        <link rel="stylesheet" type="text/css" href="./assets/css/style-index.css">
+        <title>Forecast Finder</title>
     </head>
     <body>
-        <header>
-            <h1>Weather Search</h1>
-        </header>
-
-
         <main>
-            <section id="search-section">
-                <h2>Enter a city below and view a current 5-day weather forecast for that area.</h2>
-                <input id="city-search-bar" placeholder="City...">
-                <i class="fas fa-search"></i>
-            </section>
-
-            <section id="weather-section">
-
-            </section>
-
-            <section id="history-section">
-
-            </section>
+            <h1 class="display-1 p-3">Forecast Finder</h1>
+            <h3 class="p-2">See a five-day forecast for any city in the world.</h3>
+            <input id="city-search-bar" class="col-12 col-md-8" placeholder="City...">
+            <i id="search-button" class="fas fa-search p-3 p-md-2 mt-1 col-12 col-md-2"></i>
         </main>
-
-
-        <footer>
-            &copy; 2023 Noah Nielsen // Sumtwelve
+        <footer class="fs-5 fixed-bottom text-center p-2 mt-1">
+            &copy; 2023 Noah Nielsen // Sumtwelve • <a href="https://github.com/Sumtwelve/w6-weather" target="_blank">GitHub</a>
         </footer>
 
         <!-- required JS libraries for Bootstrap -->
@@ -42,6 +26,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
         <!-- actual source code for the web app -->
-        <script type="application/javascript" src="./assets/script.js"></script>
+        <script type="application/javascript" src="./assets/js/script.js"></script>
     </body>
 </html>

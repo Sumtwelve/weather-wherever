@@ -1,0 +1,99 @@
+:root {
+    --bg: #CCFFFF;
+    --bg-dark: #20006b;
+    --very-cold: #1a236fff;
+    --cold: #119fd3ff;
+    --warm: #fdffd2ff;
+    --hot: #ff8527ff;
+    --very-hot: #ce1717ff;
+}
+
+html, body {
+    height: 100%;
+    
+    /* following two lines credit to Stack Overflow user Gima
+    (https://stackoverflow.com/users/961517/gima)
+    these lines as well as the `body > *` and `flex-grow: 1;` in the `main` selector
+    force empty divs to extend to bottom of the page.
+    NOTE that the first two lines under the `main` selector are my code,
+    and without that code the desired effect is not reached, so idk what's happening.
+    History div also shrinks when the above line, `height: 100%;`, is deleted.*/
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-image: url(../images/bg-large.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+body {
+    background-image: url(../images/bg-large-detailed.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+body > * {
+    flex-shrink: 0;
+}
+
+header {
+    border-bottom: 4px solid gray;
+    background-color: #AAFFFF;
+}
+
+main {
+    display: flex;
+
+    flex-grow: 1;
+}
+
+
+
+.search-and-history-container {
+    border-right: 1px solid black;
+}
+
+.search-section {
+    border-bottom: 1px dashed black;
+}
+
+.fa-search {
+    font-size: 24px;
+    transition: all 0.2s ease;
+}
+
+.fa-search:hover {
+    cursor: pointer;
+    color: purple;
+}
+
+footer {
+    color: white;
+    background-color: var(--bg-dark);
+}
+
+footer a {
+    color: #ff7f7f;
+    transition: all 0.15s ease;
+}
+footer a:hover {
+    text-decoration: none;
+    color: #ffa9a9;
+}
+
+
+@media only screen and (max-width: 991px) {
+
+    main {
+        flex-direction: column;
+    }
+
+    .search-and-history-container {
+        border-right: none;
+        border-bottom: 2px solid black;
+    }
+}
