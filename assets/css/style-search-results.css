@@ -22,8 +22,18 @@ html, body {
     flex-direction: column;
 }
 
+header {
+    background-image: url(../images/bg-large.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
 body {
-    background-color: #CCFFFF;
+    background-image: url(../images/bg-large-detailed.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 
 body > * {
@@ -68,7 +78,7 @@ footer {
 
 footer a {
     color: #ff7f7f;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
 }
 footer a:hover {
     text-decoration: none;
