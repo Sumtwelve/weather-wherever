@@ -15,8 +15,9 @@ function getCityNameFromSearchBar() {
     } else {
         console.log("Error: no search query. Normally this is impossible.")
     }
-    console.log(cityNameQuery);
-    getCoords(cityNameQuery);
+    // uncomment ↓ to print headers to console
+    //console.log(cityNameQuery);
+    return cityNameQuery;
 }
 
 function getCoords(cityName) {
@@ -43,12 +44,21 @@ function getCoords(cityName) {
             console.log("Lat: " + results[0].lat + "\nLon: " + results[0].lon);
             var lattitude = results[0].lat;
             var longitude = results[0].lon;
-            getWeatherData(lattitude, longitude);
+            return [lattitude, longitude];
         }
     });
 }
 
-function getWeatherData(cityLat, cityLon) {
+function getWeather(latLonArr) {
+    var lat = latLonArr[0];
+    var lon = latLonArr[1];
+
+}
+
+function getForecast(latLonArr) {
+    var cityLat = latLonArr[0];
+    var cityLon = latLonArr[1];
+    
     var weatherQueryString = "https://api.openweathermap.org/data/2.5/forecast?lat=" + cityLat + "&lon=" + cityLon + "&appid=af97bd5be6a8a1d925cf64d77d34d415";
 
     fetch(weatherQueryString)
@@ -67,7 +77,7 @@ function getWeatherData(cityLat, cityLon) {
             console.log("Weather data results:");
             console.log(results);
 
-            displayWeatherData(results);
+            return results;
         }
     });
 }
@@ -84,7 +94,25 @@ function displayWeatherData(data) {
     var fiveDaysFromNow = dayjs().add(4, "day").format("MMM D, YYYY");
     dateHeader.text(currentDate + " — " + fiveDaysFromNow);
 
-    
+    // Find and set the content for the day cards
+    console.log(dayCardsContainer);
+    for (var i = 0; i < 5; i++) {
+        // Set day text (e.g. "Sun") and date text (e.g. "1/23")
+        var day = dayjs().add(i, "day").format("ddd");
+        var date = dayjs().add(i, "day").format("M/D")
+        dayCardsContainer.children().eq(i).children().eq(0).text(day);
+        dayCardsContainer.children().eq(i).children().eq(1).text(date);
+
+        // Get degrees (high and low) for each day
+        //var degHi = 
+
+        // Extract icon href and set it to img tag
+
+    }
+}
+
+function addToSearchHistory(query) {
+    // TODO: display previous searches as an <a> tag
 }
 
 
@@ -98,8 +126,10 @@ $("#search-form").on("submit", function(event) {
     } else {
         var queryString = "./search-results.html?q=" + searchInputVal;
         location.assign(queryString);
-        console.log("wow");
     }
 });
 
-getCityNameFromSearchBar();
+var cityName = getCityNameFromSearchBar();
+var cityCoords = getCoords(cityName); // API call to find coordinates by city name
+var currentWeatherData = getWeather(cityCoords); // API call to get current weather data
+var forecastData = getForecast(cityCoords); // API call to get 5-day forecast starting tomorrow

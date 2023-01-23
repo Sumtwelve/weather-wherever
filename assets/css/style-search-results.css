@@ -85,6 +85,14 @@ footer a:hover {
     color: #ffa9a9;
 }
 
+.day-cards-container {
+    display: flex;
+    justify-content: center;
+}
+.day-card {
+    width: 2vw;
+}
+
 
 @media only screen and (max-width: 991px) {
 
