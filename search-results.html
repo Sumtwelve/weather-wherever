@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="./assets/css/reset.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
         <link rel="stylesheet" type="text/css" href="./assets/css/style-search-results.css">
@@ -19,8 +20,10 @@
             <div class="search-and-history-container col-lg-4">
                 <section id="search-section" class="search-section p-3 p-lg-5 pt-1">
                     <h3 class="py-2 mb-3">Enter a city below and view a current five-day weather forecast for that area.</h3>
-                    <input id="city-search-bar" class="col-9 col-lg-8" placeholder="City...">
-                    <i id="search-button" class="fas fa-search col-1 col-lg-1 p-3 px-4"></i>
+                    <form id="search-form">
+                        <input id="city-search-bar" class="col-9 col-lg-8" placeholder="City...">
+                        <button id="search-button" type="submit" form="search-form" class="fas fa-search col-1 col-lg-1 p-3 px-4"></button>
+                    </form>
                 </section>
 
                 <section id="history-section h-100">
@@ -37,23 +40,23 @@
                     <h2 id="city-header" class="text-center p-4"></h2>
                     <h3 id="date-header" class="text-center"></h3>
                     <div id="day-cards-container" class="d-flex">
-                        <div id="daycard-0" class="text-center p-2">
+                        <div id="daycard-0" class="text-center">
                             <p id="daycard-0-text"></p>
                             <img id="daycard-0-img"> <!-- TODO: set alts via javascript -->
                         </div>
-                        <div id="daycard-1">
+                        <div id="daycard-1" class="text-center">
                             <p id="daycard-1-text"></p>
                             <img id="daycard-1-img">
                         </div>
-                        <div id="daycard-2">
+                        <div id="daycard-2" class="text-center">
                             <p id="daycard-2-text"></p>
                             <img id="daycard-2-img">
                         </div>
-                        <div id="daycard-3">
+                        <div id="daycard-3" class="text-center">
                             <p id="daycard-3-text"></p>
                             <img id="daycard-3-img">
                         </div>
-                        <div id="daycard-4">
+                        <div id="daycard-4" class="text-center">
                             <p id="daycard-4-text"></p>
                             <img id="daycard-4-img">
                         </div>
