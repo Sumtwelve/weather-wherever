@@ -8,18 +8,18 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
         <link rel="stylesheet" type="text/css" href="./assets/css/style-search-results.css">
-        <title>Forecast Finder</title>
+        <title>The Weather Wherever</title>
     </head>
     <body> <!-- flexbox -->
         <header>
-            <h1 class="text-center p-4">Forecast Finder</h1>
+            <h1 class="text-center p-4 display-4">The Weather Wherever</h1>
         </header>
 
 
         <main> <!-- flexbox -->
             <div class="search-and-history-container col-lg-4">
                 <section id="search-section" class="search-section p-3 p-lg-5 pt-1">
-                    <h3 class="py-2 mb-3">Enter a city below and view a current five-day weather forecast for that area.</h3>
+                    <h3 class="py-2 mb-3">Enter a city below:</h3>
                     <form id="search-form">
                         <input id="city-search-bar" class="col-9 col-lg-8" placeholder="City...">
                         <button id="search-button" type="submit" form="search-form" class="fas fa-search col-1 col-lg-1 p-3 px-4"></button>
@@ -37,8 +37,9 @@
             <div class="weather-container w-100">
                 <section id="weather-section">
                     <!-- The rest of the page's content will be filled via javascript -->
-                    <h2 id="city-header" class="text-center p-4">Loading results...</h2>
-                    <h3 id="date-header" class="text-center"></h3>
+                    <h2 id="city-header" class="text-center h1 pt-4 pb-2">Loading results...</h2>
+                    <h3 id="current-date-header" class="text-center h4"></h3>
+                    <h3 id="forecast-date-header" class="text-center h4"></h3>
                     <div id="day-cards-container" class="day-cards-container">
                         <div id="daycard-0" class="text-center">
                             <p id="daycard-0-day"></p>
