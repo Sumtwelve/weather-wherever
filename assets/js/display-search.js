@@ -103,14 +103,35 @@ function getCurrentWeather(lat, lon) {
 function displayCurrentWeather(data) {
     // NOTE: 
     
-    // display forecast date range
+    // display current date
     var currentDate = dayjs().format("MMM D, YYYY");
     currentDateHeader.text(currentDate);
     
 
-    // Find and set the content for the day cards
-    
+    // DISPLAY CURRENT WEATHER CONDITIONS
+    var weatherDeg = $("#current-weather-text");
+    var weatherIcon = $("#current-weather-icon");
 
+    // temperature data comes in degrees kelvin
+    var tempK = data.main.temp;
+    var tempF = fromKelvin(tempK, "f");
+    var tempC = fromKelvin(tempK, "c");
+    var temperature = (tempF + "°F (" + tempC + "°C)<br>");
+
+    // wind speed data comes in kmph
+    var windKMPH = data.wind.speed;
+    var windMPH = toImperial(windKMPH, "km");
+    var windSpeed = ("<strong>Wind speed:</strong> " + windMPH + " MPH (" + windKMPH + " KMPH)<br>")
+
+    $("#current-weather-degrees").html(temperature);
+    //TODO: after work 1/25: current weather needs to sit in a flex div
+    // - Finish coralling and displaying the data, then focus on styling.
+    // You're probably gonna have to abandon the temperature gradient idea.
+    // Just style all the day cards white. (But if you have time, here's an idea
+    // for a manual gradient: do it like how you "placed" a user based on their quiz score.)
+    // - You might have to redesign the day cards. Adding and animating a blurb with new
+    // content might take too much time, so just abandon the click functionality idea.
+    // Make them each take their own line, make sure high and low temps are biggest.
 }
 
 
@@ -168,9 +189,33 @@ function displayForecast(data) {
 
 
 function addToSearchHistory(query) {
-    // TODO: display previous searches as <a> tags
+    // TODO: display previous searches as <a> tags or buttons ig works too
 }
 
+
+function fromKelvin(degreesK, convertToUnit) {
+    switch (convertToUnit.toLowerCase()) {
+        case "f":
+            return Math.trunc((degreesK - 273.15) * 9 / 5 + 32);
+        case "c":
+            return Math.trunc(degreesK - 273.15);
+        default:
+            console.log("ERROR: Invalid or unexpected argument `unit` for degree conversion.")
+            return null;
+    }
+}
+
+// Function to convert KM to MI, or M to FT
+// NOTE that result is always truncated, fractional degrees will never be displayed
+// on the website.
+function toImperial(metricLength, metricUnit) {
+    switch (metricUnit.toLowerCase()) {
+        case "km":
+            return Math.trunc(metricLength * 0.621371);
+        case "m":
+            return Math.trunc(metricLength * 3.28084);
+    }
+}
 
 
 
