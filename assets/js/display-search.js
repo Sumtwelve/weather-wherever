@@ -5,6 +5,10 @@ var currentDateHeader = $("#current-date-header");
 var forecastDateHeader = $("#forecast-date-header");
 var dayCardsContainer = $("#day-cards-container");
 
+// Intl.DisplayNames converts a country code into its full (English) name
+// To use, use the `of` keyword:
+// var countryName = englishName.of("IN");
+const englishName = new Intl.DisplayNames(["en"], { type: "region" });
 
 
 // Function Declarations Below
@@ -61,7 +65,7 @@ function getCoords(cityName) {
 
             // place city and country into cityHeader
             // This is done here because the 
-            cityHeader.text(results[0].name + ", " + results[0].country);
+            cityHeader.text(results[0].name + ", " + englishName.of(results[0].country));
 
             getCurrentWeather(latitude, longitude);
             getForecast(latitude, longitude);
@@ -104,37 +108,85 @@ function displayCurrentWeather(data) {
     // NOTE: 
     
     // display current date
-    var currentDate = dayjs().format("MMM D, YYYY");
-    currentDateHeader.text(currentDate);
+    console.log(data.dt);
+    var cityCurrentDate = dayjs.unix(data.dt).format("MMM D, YYYY h:mm A");
+    currentDateHeader.text(cityCurrentDate); // TODO: get local time!!
     
 
     // DISPLAY CURRENT WEATHER CONDITIONS
-    var weatherDeg = $("#current-weather-text");
-    var weatherIcon = $("#current-weather-icon");
 
     // temperature data comes in degrees kelvin
     var tempK = data.main.temp;
     var tempF = fromKelvin(tempK, "f");
     var tempC = fromKelvin(tempK, "c");
-    var temperature = (tempF + "°F (" + tempC + "°C)<br>");
+    // assemble string and then display it
+    var currentTemp = (tempF + "°F (" + tempC + "°C)");
+    $("#current-weather-degrees").html(currentTemp);
 
-    // wind speed data comes in kmph
+    // get and display current weather ("cw") icon, set description as alt
+    // note we get the 2x size version because I want it to be big
+    var cwIconURL = "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png";
+    $("#current-weather-icon").attr("src", cwIconURL);
+    $("#current-weather-icon").attr("alt", data.weather[0].description);
+
+    // get and display current weather conditions:
+    // Feels Like (K), rain volume (mm), wind speed (m/s), and humidity (%)
+    // 1. Weather description
+    var cwDesc = data.weather[0].description;
+    // 2. Rain and snow
+    var currentRainDisplay = "";
+    var currentSnowDisplay = "";
+    if (data.rain) {
+        // Rain data is under an object key called "1h". Javascript doesn't like that,
+        // so I have to backdoor it out. Credit to StackOverflow user https://stackoverflow.com/users/1522816/grzegorz-kaczan
+        // S.O. question: https://stackoverflow.com/questions/983267/how-to-access-the-first-property-of-a-javascript-object
+        var currentRain = data.rain[Object.keys(data.rain)[0]];
+        currentRainDisplay = "<strong>Rain: </strong>"
+            + currentRain + "mm (" + toImperial(currentRain, "mm") + "in)<br>";
+    }
+    if (data.snow) {
+        // To understand this, see comment on rain data above
+        var currentSnow = data.snow[Object.keys(data.snow)[0]];
+        currentSnowDisplay = "<strong>Snow: </strong>"
+            + currentSnow + "mm (" + toImperial(currentSnow, "mm") + "in)<br>";
+    }
+    // 3. Feels Like
+    var feelsLikeF = fromKelvin(data.main.feels_like, "f");
+    var feelsLikeC = fromKelvin(data.main.feels_like, "c");
+    // 4. Wind speed
     var windKMPH = data.wind.speed;
     var windMPH = toImperial(windKMPH, "km");
-    var windSpeed = ("<strong>Wind speed:</strong> " + windMPH + " MPH (" + windKMPH + " KMPH)<br>")
+    // 5. Humidity
+    var currentHumidity = data.main.humidity;
+    // 6. Put it all together
+    $("#current-weather-conditions").html(
+        // place a span into the html to make weather description big and green :)
+        "<strong><span class=\"h3\" style=\"color: green;\">" + cwDesc + "</span></strong>" +
+        "<br>" +
+        currentRainDisplay +
+        currentSnowDisplay +
+        "<i><strong>Feels Like: </strong></i>" + feelsLikeF + "°F (" + feelsLikeC + "°C)" +
+        "<br>" +
+        "<strong>Wind speed: </strong>" + windMPH + " MPH (" + windKMPH + " KMPH)" +
+        "<br>" +
+        "<strong>Humidity: </strong>" + currentHumidity + "%"
+    );
 
-    $("#current-weather-degrees").html(temperature);
-    //TODO: after work 1/25: current weather needs to sit in a flex div
-    // - Finish coralling and displaying the data, then focus on styling.
-    // You're probably gonna have to abandon the temperature gradient idea.
-    // Just style all the day cards white. (But if you have time, here's an idea
-    // for a manual gradient: do it like how you "placed" a user based on their quiz score.)
-    // - You might have to redesign the day cards. Adding and animating a blurb with new
-    // content might take too much time, so just abandon the click functionality idea.
-    // Make them each take their own line, make sure high and low temps are biggest.
-}
+    // set sunrise and sunset into final p tag
+    var sunrise = dayjs.unix(data.sys.sunrise).format("h:mm A");
+    var sunset = dayjs.unix(data.sys.sunset).format("h:mm A");
+    $("#current-sunrise-sunset").html(
+        "<strong>Sunrise: </strong>" + sunrise +
+        " <strong>Sunset: </strong>" + sunset
+    );
+} // end of displayCurrentWeather()
 
 
+
+
+//////////////////////////////////////////////////////////////////
+///////////////////////// FORECAST BELOW /////////////////////////
+//////////////////////////////////////////////////////////////////
 
 
 // Make API call to OpenWeather's "5 Day / 3 Hour Forecast" API. Does not display data.
@@ -166,6 +218,8 @@ function getForecast(lat, lon) {
 // Display the data retrieved by getForecast().
 function displayForecast(data) {
 
+    $("#forecast-header").text("FORECAST");
+
     var currentDate = dayjs().format("MMM D, YYYY");
     var fiveDaysFromNow = dayjs().add(4, "day").format("MMM D, YYYY");
     forecastDateHeader.text(currentDate + " — " + fiveDaysFromNow);
@@ -177,6 +231,7 @@ function displayForecast(data) {
         dayCardsContainer.children().eq(i).children().eq(0).text(day);
         dayCardsContainer.children().eq(i).children().eq(1).text(date);
 
+        // TODO: all this biz
         // Get degrees (high and low) for each day
         //var degHi = 
 
@@ -205,7 +260,7 @@ function fromKelvin(degreesK, convertToUnit) {
     }
 }
 
-// Function to convert KM to MI, or M to FT
+// Function to convert KM to MI, M to FT, or MM to IN
 // NOTE that result is always truncated, fractional degrees will never be displayed
 // on the website.
 function toImperial(metricLength, metricUnit) {
@@ -214,6 +269,13 @@ function toImperial(metricLength, metricUnit) {
             return Math.trunc(metricLength * 0.621371);
         case "m":
             return Math.trunc(metricLength * 3.28084);
+        case "mm":
+            // Ensures rounding to 2 decimal places.
+            // Code credit to Stack Overflow user https://stackoverflow.com/users/1575238/brian-ustas
+            // in the answered question https://stackoverflow.com/questions/11832914/how-to-round-to-at-most-2-decimal-places-if-necessary
+            return Math.round((metricLength / 25.4) * 100) / 100;
+        default:
+            return null;
     }
 }
 

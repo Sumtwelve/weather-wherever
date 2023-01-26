@@ -61,6 +61,10 @@ main {
     border-bottom: 1px dashed black;
 }
 
+#weather-section img {
+    background-color: rgb(112, 191, 196);
+}
+
 .fa-search {
     font-size: 24px;
     transition: all 0.2s ease;
@@ -85,10 +89,6 @@ footer a:hover {
     color: #ffa9a9;
 }
 
-.day-cards-container {
-    display: flex;
-    justify-content: center;
-}
 .day-card {
     width: 2vw;
 }
