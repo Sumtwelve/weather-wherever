@@ -6,6 +6,7 @@
     --warm: #fdffd2ff;
     --hot: #ff8527ff;
     --very-hot: #ce1717ff;
+    --weather-blue: rgb(112, 191, 196);
 }
 
 html, body {
@@ -62,7 +63,7 @@ main {
 }
 
 #weather-section img {
-    background-color: rgb(112, 191, 196);
+    background-color: var(--weather-blue);
 }
 
 .fa-search {
@@ -77,13 +78,13 @@ main {
 
 .search-history-item {
     color: white;
-    background-color:rgb(112, 191, 196);
+    background-color:var(--cold);
     font-size: large;
     text-align: center;
     font-weight: bolder;
     padding: 20px;
     margin: 5px 0;
-    border: 1px solid rgb(112, 191, 196);
+    border: 1px solid var(--cold);
     border-radius: 10px;
     transition: all 0.1s ease;
 }
@@ -91,7 +92,7 @@ main {
 .search-history-item:hover {
     color: black;
     background-color: white;
-    border: 1px solid rgb(112, 191, 196);
+    border: 1px solid var(--weather-blue);
     text-decoration: none;
 }
 
@@ -110,7 +111,15 @@ footer a:hover {
 }
 
 .day-card {
-    width: 2vw;
+    color: white;
+    background-color: var(--bg-dark);
+}
+
+.day-card-date {
+    background-color: #56557e;
+    padding: 4px;
+    font-size: large;
+    font-weight: bolder;
 }
 
 .day-cards-container > div {
@@ -122,6 +131,13 @@ footer a:hover {
 
 
 @media only screen and (max-width: 991px) {
+
+    body {
+        background-image: url(../images/bg-small.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
 
     main {
         flex-direction: column;

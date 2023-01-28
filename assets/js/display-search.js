@@ -46,6 +46,9 @@ function getCityNameFromSearchBar() {
 // to get weather data take coordinates as input, not city name.
 function getCoords(cityName) {
 
+    // Display text that lets user know results are being fetched
+    $("#city-header").text("Loading results...");
+
     var coordsQueryString = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=af97bd5be6a8a1d925cf64d77d34d415";
 
     fetch(coordsQueryString)
@@ -224,36 +227,73 @@ function displayForecast(data) {
 
     $("#forecast-header").text("FORECAST");
 
+    // Set forecast date range into forecast html header.
+    // FIXME: These dates are unlinked from the forecast data. There may be discrepancies.
     var tomorrowDate = dayjs().add(1, "day").format("MMM D, YYYY");
     var fiveDaysFromNow = dayjs().add(5, "day").format("MMM D, YYYY");
     forecastDateHeader.text(tomorrowDate + " — " + fiveDaysFromNow);
+    
+    // Find the 3hr time block closest to the current hour. See comments above findHourBlock()
+    // for a proper explanation.
+    var currentHour = parseInt(dayjs().format("H"));
+    var nearestTimeBlock = findHourBlock(currentHour);
+    console.log("current hour: " + currentHour);
+    console.log("nearest time block: " + nearestTimeBlock);
 
-    for (var i = 0; i < 5; i++) {
-        
+    // We're now going to access the forecast data.
+    var count = 0; // will count the number of matching time blocks
+    var tempHiF, tempHiC, tempLoF, tempLoC, weatherIconID, weatherIconURL; // the forecast data to display
+    for (var i = 0; i < 40; i++) {
+        var dtText = data.list[i].dt_txt; // holds human date as string, e.g. "2023-01-29 03:00:00"
+        var dtHour = parseInt(dayjs(dtText).format("H")); // extract the hour
+        //console.log(i + ": " + dtText + " // Hour: " + dtHour); // debug stuff
 
+        // If weather data at this time block
+        if (dtHour == nearestTimeBlock) {
+            // debug stuff
+            //console.log("FOUND A " + nearestTimeBlock + "!!!\n");
+            console.log(data.list[i]);
+            
 
-        // Set day text (e.g. "Sun") and date text (e.g. "1/23")
-        var forecastDay = dayjs().add(i+1, "day").format("ddd M/D");
-        //var forecastIconURL = "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png";
-        //dayCardsContainer.children().eq(i).children().eq(0).text(forecastDay);
+            // extract data
+            tempHiF = fromKelvin(data.list[i].main.temp_max, "f");
+            tempLoF = fromKelvin(data.list[i].main.temp_min, "f");
+            tempHiC = fromKelvin(data.list[i].main.temp_max, "c");
+            tempLoC = fromKelvin(data.list[i].main.temp_min, "c");
+            weatherIconID = data.list[i].weather[0].icon;
+            weatherIconURL = "https://openweathermap.org/img/wn/" + weatherIconID + ".png";
 
-        // assemble HTML ID names with `i` by building strings then jQuerying them
-        var dateTextID = "#daycard-" + i + "-date";
-        var dateIconID = "#daycard-" + i + "img";
-        var dateText = $(dateTextID);
-        var dateIcon = $(dateIconID);
-        dateText.text(forecastDay);
-        
-        var datesArr = [];
-        //for (var j = 0; j < )
+            // SET DATA INTO CONTAINERS VIA THE `count` VARIABLE
+            // 1. Store this forecast's date into a variable
+            var forecastDay = dayjs().add(count+1, "day").format("ddd M/D");
+            // 2. Build a string that matches the IDs of the corresponding cards
+            var cardID = "#daycard-" + count;
+            var cardDateID = "#daycard-" + count + "-date";
+            var cardTextID = "#daycard-" + count + "-text"
+            var cardIconID = "#daycard-" + count + "-img";
+            // 3. Grab the html elements by those IDs
+            var card = $(cardID);
+            var cardDate = $(cardDateID);
+            var cardText = $(cardTextID)
+            var cardIcon = $(cardIconID);
+            // 4. Set the data into the cards
+            cardDate.text(forecastDay);
+            cardText.html(
+                "Hi: " + tempHiF + "°F (" + tempHiC + "°C)"
+                + "<br>"
+                + "Lo: " + tempLoF + "°F (" + tempLoC + "°C)"
+            );
+            cardIcon.attr("src", weatherIconURL);
+            // 5. Style the cards. Note this is only done now that we can display their data.
+            card.addClass("day-card");
+            cardDate.addClass("day-card-date");
+            cardText.css("color", "white");
 
-        // TODO: all this biz
-        // Get degrees (high and low) for each day
-        //var degHi = 
-
-        // Extract icon href and set it to img tag
-
+            // Increment the counter for next time a current hour block is found
+            count++;
+        }
     }
+    console.log("Found " + count + " " + nearestTimeBlock + "s in the forecast data.");
 }
 
 
@@ -298,7 +338,14 @@ function addToSearchHistory(newEntry) {
     console.log(JSON.parse(localStorage.getItem("search-history")));
 }
 
+// Function reads localStorage.search-history, creates a functional <a> tag for each element,
+// then displays them under the search history div.
 function displaySearchHistory() {
+    // NOTE: I couldn't use jQuery here because I couldn't get it to set text into the <a> tags.
+    // Instead of figuring out how to do that with jQuery, I switched over to vanilla JS.
+    // And now I realize there probably is a way to do this with jQuery, but I can't be bothered
+    // to switch it all back at this point.
+    // TODO: figure out how to do this all with jQuery
     var historyDiv = document.getElementById("history-items-container");
     
     var searchHistory = JSON.parse(localStorage.getItem("search-history"));
@@ -414,7 +461,7 @@ $("#search-form").on("submit", function(event) {
         console.log("we gonna add to search history now");
         addToSearchHistory(searchInputVal);
         var queryString = "./search-results.html?q=" + searchInputVal;
-        //location.assign(queryString);
+        location.assign(queryString);
     }
 });
 
