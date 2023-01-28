@@ -75,6 +75,26 @@ main {
     color: purple;
 }
 
+.search-history-item {
+    color: white;
+    background-color:rgb(112, 191, 196);
+    font-size: large;
+    text-align: center;
+    font-weight: bolder;
+    padding: 20px;
+    margin: 5px 0;
+    border: 1px solid rgb(112, 191, 196);
+    border-radius: 10px;
+    transition: all 0.1s ease;
+}
+
+.search-history-item:hover {
+    color: black;
+    background-color: white;
+    border: 1px solid rgb(112, 191, 196);
+    text-decoration: none;
+}
+
 footer {
     color: white;
     background-color: var(--bg-dark);

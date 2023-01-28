@@ -269,14 +269,14 @@ function displayForecast(data) {
 // Note that this does not handle displaying it to the page, as that kind of function must be
 // called every time the page is loaded, which would not be appropriate for this function here.
 function addToSearchHistory(newEntry) {
-    // TODO: display previous searches as <a> tags or buttons ig works too
+    // TODO: display previous searches as <a> tags
     var searchHistory = JSON.parse(localStorage.getItem("search-history"));
     console.log("searchHistory before setting new entry:");
     console.log(searchHistory);
 
-    if (searchHistory[0] == null) {
-        // If first element is null, that means the search-history array was newly initialized.
-        // In this case we can just set the item there instead of worrying about appending it.
+    if (!searchHistory[0]) {
+        // If first element is null, that means the search-history array is newly initialized.
+        // In this case we can just set the search item there instead of worrying about appending it.
         searchHistory[0] = newEntry;
         console.log("Set \"" + newEntry + "\" as first entry to localStorage.search-history.");
     } else {
@@ -286,23 +286,35 @@ function addToSearchHistory(newEntry) {
         console.log("Pushed \"" + newEntry + "\" to localStorage.search-history.");
     }
 
+    // TODO: find a way to test this while loop, make sure it doesn't do anything crazy.
+    // As of 1/28/2023 this bit here is UNTESTED but I don't see why it wouldn't work
+    while (searchHistory.length > 5) {
+        searchHistory.shift();
+        console.log("Shifted \"" + searchHistory[0] + "\" outta here.\nsearchHistory now: " + searchHistory);
+    }
+
     localStorage.setItem("search-history", JSON.stringify(searchHistory));
     console.log("Search history now:");
     console.log(JSON.parse(localStorage.getItem("search-history")));
 }
 
 function displaySearchHistory() {
-    var historyDiv = $("#history-items-container");
+    var historyDiv = document.getElementById("history-items-container");
     
     var searchHistory = JSON.parse(localStorage.getItem("search-history"));
     
     for (var i = 0; i < searchHistory.length; i++) {
-        var searchLink = document.createElement("a");
-        searchLink.textContent = (searchHistory[i]);
-        searchLink.setAttribute("class", "search-history-item");
-        searchLink.setAttribute("href", ("./?q=" + searchHistory[i]));
+        // If first element of localStorage.search-history is null, the array is new.
+        // Put this check in to ensure page doesn't display blank <a> with a null href.
+        if (searchHistory[0]) { // if first element is NOT null or empty
+            var searchLink = document.createElement("a");
+            searchLink.textContent = (searchHistory[i]);
+            searchLink.setAttribute("class", "search-history-item");
+            searchLink.setAttribute("href", ("?q=" + searchHistory[i]));
+            // TODO: When you click on a history item, it should jump back up to the top of the list
+            historyDiv.appendChild(searchLink);
+        }
     }
-    
 }
 
 
