@@ -30,6 +30,11 @@ function getCityNameFromSearchBar() {
         setTimeout(function() {
             document.location.assign("./index.html");
         }, 3000);
+
+        // Current function executes on page load, so this is a perfect place to
+        // refresh the search history section.
+        displaySearchHistory();
+
         return;
     }    
 }
@@ -108,9 +113,8 @@ function displayCurrentWeather(data) {
     // NOTE: 
     
     // display current date
-    console.log(data.dt);
-    var cityCurrentDate = dayjs.unix(data.dt).format("MMM D, YYYY h:mm A");
-    currentDateHeader.text(cityCurrentDate); // TODO: get local time!!
+    var cityCurrentDate = dayjs.unix(data.dt).format("MMM D, YYYY");
+    currentDateHeader.text(cityCurrentDate);
     
 
     // DISPLAY CURRENT WEATHER CONDITIONS
@@ -194,7 +198,7 @@ function displayCurrentWeather(data) {
 // API: https://openweathermap.org/forecast5
 function getForecast(lat, lon) {
 
-    var forecastQueryString = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=af97bd5be6a8a1d925cf64d77d34d415";
+    var forecastQueryString = "https://api.openweathermap.org/data/2.5/forecast/?lat=" + lat + "&lon=" + lon + "&appid=af97bd5be6a8a1d925cf64d77d34d415";
     
     fetch(forecastQueryString)
     .then(function (response) {
@@ -220,16 +224,28 @@ function displayForecast(data) {
 
     $("#forecast-header").text("FORECAST");
 
-    var currentDate = dayjs().format("MMM D, YYYY");
-    var fiveDaysFromNow = dayjs().add(4, "day").format("MMM D, YYYY");
-    forecastDateHeader.text(currentDate + " — " + fiveDaysFromNow);
+    var tomorrowDate = dayjs().add(1, "day").format("MMM D, YYYY");
+    var fiveDaysFromNow = dayjs().add(5, "day").format("MMM D, YYYY");
+    forecastDateHeader.text(tomorrowDate + " — " + fiveDaysFromNow);
 
     for (var i = 0; i < 5; i++) {
+        
+
+
         // Set day text (e.g. "Sun") and date text (e.g. "1/23")
-        var day = dayjs().add(i+1, "day").format("ddd");
-        var date = dayjs().add(i+1, "day").format("M/D")
-        dayCardsContainer.children().eq(i).children().eq(0).text(day);
-        dayCardsContainer.children().eq(i).children().eq(1).text(date);
+        var forecastDay = dayjs().add(i+1, "day").format("ddd M/D");
+        //var forecastIconURL = "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png";
+        //dayCardsContainer.children().eq(i).children().eq(0).text(forecastDay);
+
+        // assemble HTML ID names with `i` by building strings then jQuerying them
+        var dateTextID = "#daycard-" + i + "-date";
+        var dateIconID = "#daycard-" + i + "img";
+        var dateText = $(dateTextID);
+        var dateIcon = $(dateIconID);
+        dateText.text(forecastDay);
+        
+        var datesArr = [];
+        //for (var j = 0; j < )
 
         // TODO: all this biz
         // Get degrees (high and low) for each day
@@ -243,9 +259,58 @@ function displayForecast(data) {
 
 
 
-function addToSearchHistory(query) {
+////////////////////////////////////////////////////////////////////////
+///////////////////////// SEARCH HISTORY BELOW /////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+
+
+// Function to add submitted city name query to localStorage.search-history.
+// Note that this does not handle displaying it to the page, as that kind of function must be
+// called every time the page is loaded, which would not be appropriate for this function here.
+function addToSearchHistory(newEntry) {
     // TODO: display previous searches as <a> tags or buttons ig works too
+    var searchHistory = JSON.parse(localStorage.getItem("search-history"));
+    console.log("searchHistory before setting new entry:");
+    console.log(searchHistory);
+
+    if (searchHistory[0] == null) {
+        // If first element is null, that means the search-history array was newly initialized.
+        // In this case we can just set the item there instead of worrying about appending it.
+        searchHistory[0] = newEntry;
+        console.log("Set \"" + newEntry + "\" as first entry to localStorage.search-history.");
+    } else {
+        // If we reached this else then the search-history array is not new and already has items
+        // set into it. So, we have to push to the array to avoid overwriting the search history.
+        searchHistory.push(newEntry);
+        console.log("Pushed \"" + newEntry + "\" to localStorage.search-history.");
+    }
+
+    localStorage.setItem("search-history", JSON.stringify(searchHistory));
+    console.log("Search history now:");
+    console.log(JSON.parse(localStorage.getItem("search-history")));
 }
+
+function displaySearchHistory() {
+    var historyDiv = $("#history-items-container");
+    
+    var searchHistory = JSON.parse(localStorage.getItem("search-history"));
+    
+    for (var i = 0; i < searchHistory.length; i++) {
+        var searchLink = document.createElement("a");
+        searchLink.textContent = (searchHistory[i]);
+        searchLink.setAttribute("class", "search-history-item");
+        searchLink.setAttribute("href", ("./?q=" + searchHistory[i]));
+    }
+    
+}
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+///////////////////////// ANCILLARY FUNCTIONS BELOW /////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
 
 function fromKelvin(degreesK, convertToUnit) {
@@ -280,6 +345,51 @@ function toImperial(metricLength, metricUnit) {
 }
 
 
+// The forecast data is going to be a little difficult to work with. It takes your local time,
+// then returns forecast data for the next five days, starting at about 12 hours into the future.
+// It groups the forecast data into 3-hour blocks. Ideally, I would like to display forecasted
+// weather as near to the current local time as possible (meaning if you look up the forecast
+// Monday at 1:30pm, you'll see each forecasted day's weather for noon, the nearest block).
+// To do that, a for loop in the displayForecast() function will check all 40 blocks in the data
+// (5 days * 8 blocks per day = 40 total blocks), read the hour, and use the function below
+// to find its nearest hour block.
+function findHourBlock(hour) {
+    switch (hour) {
+        case 0:
+        case 1:
+        case 2: return 0;
+        case 3:
+        case 4:
+        case 5: return 3;
+        case 6:
+        case 7:
+        case 8: return 6;
+        case 9:
+        case 10:
+        case 11: return 9;
+        case 12:
+        case 13:
+        case 14: return 12;
+        case 15: 
+        case 16: 
+        case 17: return 15;
+        case 18:
+        case 19:
+        case 20: return 18;
+        case 21:
+        case 22:
+        case 23: return 21;
+        
+        default: return null;
+    }
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////
+///////////////////////// `MAIN` FUNCTIONS BELOW /////////////////////////
+//////////////////////////////////////////////////////////////////////////
+
 
 // Provide functionality to search bar. Exact same as on landing page.
 $("#search-form").on("submit", function(event) {
@@ -289,17 +399,31 @@ $("#search-form").on("submit", function(event) {
     if (!searchInputVal) { // if nothing was typed into the search box
         alert("Please enter a city.")
     } else {
+        console.log("we gonna add to search history now");
+        addToSearchHistory(searchInputVal);
         var queryString = "./search-results.html?q=" + searchInputVal;
-        location.assign(queryString);
+        //location.assign(queryString);
     }
 });
 
 
 
+// Check if the local storage entry is there. If not, initialize it.
+// Note that I had to use the Array constructor, forcing JS to recognize it as an array
+// and allowing me to use the .push() method (as seen in the addToSearchHistory() function above)
+if (!localStorage.getItem("search-history")) {
+    localStorage.setItem("search-history", JSON.stringify(new Array(1)));
+}
+
+// Access localStorage.search-history and build the user-facing Search History list from its contents.
+// Note this has to happen every time the page loads, which is why I put it here.
+displaySearchHistory();
 
 
 // Start the program.
 var cityName = getCityNameFromSearchBar();
-var cityCoords = getCoords(cityName); // API call to find coordinates by city name
-// once it has the coords, it will call getCurrentWeather() to display current weather data,
-// and then getCurrentWeather() will call getForecast() to display forecast data
+var cityCoords = getCoords(cityName); // API call to find coordinates by city name.
+// This starts a function chain: 
+//                                     / 1. getCurrentWeather -> displayCurrentWeather
+//                        getCoords --(
+//                                     \ 2. getForecast -> displayForecast

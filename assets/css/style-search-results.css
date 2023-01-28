@@ -93,6 +93,13 @@ footer a:hover {
     width: 2vw;
 }
 
+.day-cards-container > div {
+    display: flex;
+    flex-direction: column;
+    /* background-color: rgb(123, 213, 255); */
+    flex-grow: 1;
+}
+
 
 @media only screen and (max-width: 991px) {
 
