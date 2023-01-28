@@ -6,6 +6,7 @@
     --warm: #fdffd2ff;
     --hot: #ff8527ff;
     --very-hot: #ce1717ff;
+    --weather-blue: rgb(112, 191, 196);
 }
 
 html, body {
@@ -47,8 +48,8 @@ header {
 
 main {
     display: flex;
-
     flex-grow: 1;
+    margin-bottom: 50px;
 }
 
 
@@ -61,6 +62,10 @@ main {
     border-bottom: 1px dashed black;
 }
 
+#weather-section img {
+    background-color: var(--weather-blue);
+}
+
 .fa-search {
     font-size: 24px;
     transition: all 0.2s ease;
@@ -69,6 +74,26 @@ main {
 .fa-search:hover {
     cursor: pointer;
     color: purple;
+}
+
+.search-history-item {
+    color: white;
+    background-color:var(--cold);
+    font-size: large;
+    text-align: center;
+    font-weight: bolder;
+    padding: 20px;
+    margin: 5px 0;
+    border: 1px solid var(--cold);
+    border-radius: 10px;
+    transition: all 0.1s ease;
+}
+
+.search-history-item:hover {
+    color: black;
+    background-color: white;
+    border: 1px solid var(--weather-blue);
+    text-decoration: none;
 }
 
 footer {
@@ -85,8 +110,34 @@ footer a:hover {
     color: #ffa9a9;
 }
 
+.day-card {
+    color: white;
+    background-color: var(--bg-dark);
+}
+
+.day-card-date {
+    background-color: #56557e;
+    padding: 4px;
+    font-size: large;
+    font-weight: bolder;
+}
+
+.day-cards-container > div {
+    display: flex;
+    flex-direction: column;
+    /* background-color: rgb(123, 213, 255); */
+    flex-grow: 1;
+}
+
 
 @media only screen and (max-width: 991px) {
+
+    body {
+        background-image: url(../images/bg-small.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
 
     main {
         flex-direction: column;

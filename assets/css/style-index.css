@@ -25,14 +25,14 @@ main {
     text-align: center;
 }
 
-i {
+button {
     color: white;
     background-color: purple;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
-i:hover {
+button:hover {
     padding: 2% !important;
 }
 
