@@ -2,7 +2,7 @@
 
 ## Description
 A simple web app that allows you to enter a city and pull up a current 5-day weather forecast for that area.
-Uses a few OpenWeatherMap APIs to convert a searth query to coordinates, and then to grab current weather conditions and a five-day forecast.
+Uses a few OpenWeatherMap APIs to convert a search query to coordinates, and then to grab current weather conditions and a five-day forecast.
 
 Simply type any city name into the search bar, and watch the weather information show up!
 
