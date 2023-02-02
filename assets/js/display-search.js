@@ -470,6 +470,8 @@ $("#search-form").on("submit", function(event) {
 // Check if the local storage entry is there. If not, initialize it.
 // Note that I had to use the Array constructor, forcing JS to recognize it as an array
 // and allowing me to use the .push() method (as seen in the addToSearchHistory() function above)
+// NOTE ALSO that this does not need to be in this file. It's sufficient for it to be in script.js,
+// but I'm keeping it here just to bug-proof it.
 if (!localStorage.getItem("search-history")) {
     localStorage.setItem("search-history", JSON.stringify(new Array(1)));
 }

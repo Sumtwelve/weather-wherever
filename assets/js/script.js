@@ -39,3 +39,10 @@ function addToSearchHistory(newEntry) {
     console.log("Search history now:");
     console.log(JSON.parse(localStorage.getItem("search-history")));
 }
+
+// Check if the local storage entry is there. If not, initialize it.
+// Note that I had to use the Array constructor, forcing JS to recognize it as an array
+// and allowing me to use the .push() method (as seen in the addToSearchHistory() function above)
+if (!localStorage.getItem("search-history")) {
+    localStorage.setItem("search-history", JSON.stringify(new Array(1)));
+}
