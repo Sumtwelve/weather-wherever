@@ -49,7 +49,7 @@ function getCoords(cityName) {
     // Display text that lets user know results are being fetched
     $("#city-header").text("Loading results...");
 
-    var coordsQueryString = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=af97bd5be6a8a1d925cf64d77d34d415";
+    var coordsQueryString = "https://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=af97bd5be6a8a1d925cf64d77d34d415";
 
     fetch(coordsQueryString)
     .then(function (response) {
