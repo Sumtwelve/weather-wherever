@@ -3,7 +3,7 @@
 ## Description
 A simple web app that allows you to enter a city and pull up a current 5-day weather forecast for that area.
 Uses a few OpenWeatherMap APIs to convert a search query to coordinates, and then to grab current weather conditions and a five-day forecast.
-Visit the website here: https://sumtwelve.github.io/w6-weather/index.html
+Visit the website here: https://sumtwelve.github.io/weather-wherever/
 
 Simply type any city name into the search bar, and watch the weather information show up!
 
