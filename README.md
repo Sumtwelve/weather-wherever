@@ -10,7 +10,7 @@ Simply type any city name into the search bar, and watch the weather information
 ## Screenshots
 
 Example search results:
-[a screenshot of search results for Van Wert, USA](./assets/images/Screenshots/search-results-example.jpg)
+![a screenshot of search results for Van Wert, USA](./assets/images/Screenshots/search-results-example.jpg)
 
 Example landing page on mobile:
-[a screenshot of the landing page, as shown on a mobile phone](./assets/images/Screenshots/landing-page-mobile.png)
+![a screenshot of the landing page, as shown on a mobile phone](./assets/images/Screenshots/landing-page-mobile.png)
